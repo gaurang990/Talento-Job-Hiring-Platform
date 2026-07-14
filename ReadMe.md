@@ -38,6 +38,24 @@ Server is running...
 MongoDB Connected...
 This confirms that your backend server is working perfectly.
 
+
+## 📌 Features
+
+### 👨‍🎓 Candidate
+- User Registration & Login
+- Browse Available Jobs
+- Search & Filter Jobs
+- Apply for Jobs
+- View Applied Jobs
+- Responsive User Interface
+
+### 🏢 Company
+- Company Registration & Login
+- Create and Manage Job Posts
+- View Applicants
+- Update Company Profile
+
+
 ## 🚀 Future Improvements
 
 - JWT Authentication
