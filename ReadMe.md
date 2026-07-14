@@ -55,6 +55,20 @@ This confirms that your backend server is working perfectly.
 - View Applicants
 - Update Company Profile
 
+- ## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- React Router
+- Axios
+- CSS
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+
 
 ## 🚀 Future Improvements
 
