@@ -37,3 +37,35 @@ If everything is working correctly, you should see console messages like:
 Server is running...
 MongoDB Connected...
 This confirms that your backend server is working perfectly.
+
+## 🚀 Future Improvements
+
+- JWT Authentication
+- Role-Based Authorization
+- Resume Upload
+- Email Notifications
+- Profile Management
+- Admin Dashboard
+- Saved Jobs
+- Pagination
+- Dark Mode
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+---
+
+## 📄 License
+
+This project is intended for learning and educational purposes.
+
+---
+
+## 👨‍💻 Author
+
+**Gaurang**
+
+GitHub: https://github.com/gaurang990
