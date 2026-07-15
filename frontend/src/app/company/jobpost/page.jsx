@@ -1,6 +1,6 @@
 "use client";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
@@ -33,14 +33,24 @@ const jobPostSchema = Yup.object().shape({
 });
 
 const Jobpost = () => {
-  const [currentCompany, setCurrentCompany] = useState(
-    JSON.parse(sessionStorage.getItem("company")),
-  );
+ const [currentCompany, setCurrentCompany] = useState(null);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const company = sessionStorage.getItem("company");
+    if (company) {
+      setCurrentCompany(JSON.parse(company));
+    }
+  }
+}, []);
+
+
   console.log(currentCompany);
 
   const jobPostForm = useFormik({
+  enableReinitialize: true,
     initialValues: {
-      company: currentCompany._id,
+      company: currentCompany?._id || "",
       jobDescription: "",
       designation: "",
       numberOfEntries: "",

@@ -5,9 +5,16 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 const CompanyInfo = () => {
-  const [currentCompany, setCurrentCompany] = useState(
-    JSON.parse(sessionStorage.getItem('company'))
-  );
+ const [currentCompany, setCurrentCompany] = useState(null);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const company = sessionStorage.getItem("company");
+    if (company) {
+      setCurrentCompany(JSON.parse(company));
+    }
+  }
+}, []);
   const [logo, setLogo] = useState(null); // To store the uploaded file
 
   const updateProfile = (data) => {
@@ -41,10 +48,21 @@ const CompanyInfo = () => {
       });
   };
 
-  const profileForm = useFormik({
-    initialValues: currentCompany,
-    onSubmit: (values) => {
-      updateProfile(values);
+ const profileForm = useFormik({
+  enableReinitialize: true,
+  initialValues: currentCompany || {
+    compName: "",
+    compEmail: "",
+    password: "",
+    about: "",
+    firstName: "",
+    lastName: "",
+    country: "",
+    streetAddress: "",
+    city: "",
+    region: "",
+    postalCode: "",
+  
     },
   });
 

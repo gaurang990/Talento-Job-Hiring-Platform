@@ -1,7 +1,7 @@
 "use client";
 import { useFormik } from "formik";
 import { comment } from "postcss";
-import React ,{useState} from "react";
+import React ,{useState ,useEffect} from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import StarRatings from 'react-star-ratings';
@@ -14,17 +14,27 @@ const FeedbackSchema = Yup.object().shape({
 
 const Feedback = () => {
 
-  const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem('user')));
-  const [rating, setRating] = useState(4)
+  const [currentUser, setCurrentUser] = useState(null);
+const [rating, setRating] = useState(4);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const user = sessionStorage.getItem("user");
+    if (user) {
+      setCurrentUser(JSON.parse(user));
+    }
+  }
+}, []);
 
 
   const feedback = useFormik({
-    initialValues: {
-      name: currentUser.name,
-      email: currentUser.email,
-      comment: "",
-      rating: 4,
-    },
+   initialValues: {
+  name: currentUser?.name || "",
+  email: currentUser?.email || "",
+  comment: "",
+  rating: 4,
+},
+enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       console.log(values);
       values.rating = rating;
