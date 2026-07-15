@@ -23,6 +23,7 @@ useEffect(() => {
         sessionStorage.removeItem('company');
         setCompanyLoggedIn(false)
         router.push('/compLogin')
+        setCurrentCompany(null); 
     }
     return (
         <CompanyContext.Provider value={{ companyLoggedIn, setCompanyLoggedIn, currentCompany, setCurrentCompany, companyLogout }}>

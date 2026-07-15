@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import useCompanyContext from "@/app/Context/CompanyContext";
 
 const compSignupSchema = Yup.object().shape({
   compName: Yup.string().min(4, 'Enter Valid First Name').required('Enter your Name'),
@@ -15,45 +17,69 @@ const compSignupSchema = Yup.object().shape({
   confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Password Must Match')
     .required('Password is Required')
 });
-
 const compSignup = () => {
+  const router = useRouter();
+  const { setCompanyLoggedIn, setCurrentCompany } = useCompanyContext();
 
   const compSignupForm = useFormik({
-    initialValues: {
-      compName: '',
-      compEmail: '',
-      password: '',
-      confirmPassword: ''
-    },
-    onSubmit: (values) => {
-      console.log(values);
+  initialValues: {
+    compName: "",
+    compEmail: "",
+    password: "",
+    confirmPassword: "",
+  },
 
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/add`, {
-        method: 'POST',
-        body: JSON.stringify(values),
-        headers: {
-          'content-Type': 'application/json'
+  validationSchema: compSignupSchema,
+
+  onSubmit: (values) => {
+    console.log(values);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Registration Failed");
         }
-      })
-        .then((response) => {
-          console.log(response.status);
-          if (response.status === 200) {
-            toast.success('User Registered Successfully');
-          
-          }
-          else {
-            toast.error('User Rrgistration Failed');
-          }
-          
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error('User Registration Failed');
-        });
-    },
-    validationSchema: compSignupSchema
-  })
 
+        toast.success("Company Registered Successfully");
+
+        // Auto Login
+        return fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/authenticate`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            compEmail: values.compEmail,
+            password: values.password,
+          }),
+        });
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Login Failed");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        sessionStorage.setItem("company", JSON.stringify(data));
+
+        setCompanyLoggedIn(true);
+        setCurrentCompany(data);
+
+        router.push("/company/jobpost");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  },
+});
   return (
     <>
       <>
@@ -76,7 +102,7 @@ const compSignup = () => {
                       type="text"
                       id="compName"
                       onChange={compSignupForm.handleChange}
-                      values={compSignupForm.values.compName}
+                      value={compSignupForm.values.compName}
                       placeholder="Company Name"
                       className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-lg shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                     />
@@ -90,7 +116,7 @@ const compSignup = () => {
                       type="email"
                       id="compEmail"
                       onChange={compSignupForm.handleChange}
-                      values={compSignupForm.values.compEmail}
+                      value={compSignupForm.values.compEmail}
                       placeholder="Email"
                       className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                     />
@@ -104,7 +130,7 @@ const compSignup = () => {
                       type="password"
                       id="password"
                       onChange={compSignupForm.handleChange}
-                      values={compSignupForm.values.password}
+                      value={compSignupForm.values.password}
                       placeholder="Password"
                       className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                     />
@@ -118,7 +144,7 @@ const compSignup = () => {
                       type="password"
                       id="confirmPassword"
                       onChange={compSignupForm.handleChange}
-                      values={compSignupForm.values.confirmPassword}
+                      value={compSignupForm.values.confirmPassword}
                       placeholder="Confirm Password"
                       className="mt-1 block w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
                     />

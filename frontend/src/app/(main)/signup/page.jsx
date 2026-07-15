@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const SignupSchema = Yup.object().shape({
   firstName : Yup.string().min(4, 'Enter Valid First Name').required('Enter your Name'),
@@ -17,44 +18,67 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const router = useRouter();
 
   const signupForm = useFormik({
-    initialValues : {
-      firstName : '',
-      lastName : '',
-      email : '',
-      password : '',
-      confirmPassword : ''
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
-    onSubmit : (values,{resetForm}) => {
-      console.log(values);
 
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/add`,{
-        method : 'POST',
-        body : JSON.stringify(values),
-        headers : {
-          'content-Type':'application/json'
-        } 
+    validationSchema: SignupSchema,
+
+    onSubmit: (values, { resetForm }) => {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       })
-      .then((response) => {
-        console.log(response.status);
-        if(response.status === 200){
-          toast.success('User Registered Successfully');
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error("Registration Failed");
+          }
+
+          toast.success("User Registered Successfully");
+
+          return fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: values.email,
+                password: values.password,
+              }),
+            }
+          );
+        })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Auto login failed");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          sessionStorage.setItem("user", JSON.stringify(data));
           resetForm();
-          
-        }
-        else{
-          toast.error('User Rrgistration Failed');
-        }
-        
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('User Registration Failed');
-      });
+          router.push("/user/profile");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.message);
+        });
     },
-    validationSchema : SignupSchema
-  })
+  });
+
+  
   return (
     <div >
       <>
