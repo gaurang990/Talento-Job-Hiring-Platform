@@ -1,39 +1,30 @@
-'use client'
-import { useFormik } from 'formik'
-import React, { useState } from 'react'
-import * as Yup from 'yup';
-import toast from 'react-hot-toast';
+"use client";
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 const qualifications = [
-  'BCA',
-  'MCA',
-  'B.Tech',
-  'M.Tech',
-  'B.Com',
-  'M.Com',
-  'BBA',
-  'MBA',
-  'B.Sc',
-  'M.Sc'
-]
+  "BCA",
+  "MCA",
+  "B.Tech",
+  "M.Tech",
+  "B.Com",
+  "M.Com",
+  "BBA",
+  "MBA",
+  "B.Sc",
+  "M.Sc",
+];
 
-const salary =[
-  '10000-20000',
-  '20000-25000',
-  '25000-30000',
-  '30000-35000'
-]
+const salary = ["10000-20000", "20000-25000", "25000-30000", "30000-35000"];
 
-const jobType =[
-  'Full Time',
-  'Part Time'
-]
+const jobType = ["Full Time", "Part Time"];
 
 const jobPostSchema = Yup.object().shape({
-
-  jobDescription: Yup.string().required('Add Some details'),
-  designation: Yup.string().required('Enter Designation'),
-  numberOfEntries: Yup.string().required('Enter Number Of Entries'),
+  jobDescription: Yup.string().required("Add Some details"),
+  designation: Yup.string().required("Enter Designation"),
+  numberOfEntries: Yup.string().required("Enter Number Of Entries"),
   jobType: Yup.string().required("Enter Job Type"),
   salary: Yup.string().required("Enter Salary"),
   eduQualification: Yup.string().required("Enter Educational qualification"),
@@ -42,41 +33,39 @@ const jobPostSchema = Yup.object().shape({
 });
 
 const Jobpost = () => {
-
   const [currentCompany, setCurrentCompany] = useState(
-    JSON.parse(sessionStorage.getItem('company'))
+    JSON.parse(sessionStorage.getItem("company")),
   );
   console.log(currentCompany);
 
   const jobPostForm = useFormik({
     initialValues: {
       company: currentCompany._id,
-      jobDescription: '',
-      designation: '',
-      numberOfEntries: '',
-      jobType: '',
-      salary: '',
-      eduQualification: '',
-      workExperience: '',
-      location: '',
+      jobDescription: "",
+      designation: "",
+      numberOfEntries: "",
+      jobType: "",
+      salary: "",
+      eduQualification: "",
+      workExperience: "",
+      location: "",
     },
     onSubmit: (values, { resetForm }) => {
       console.log(values);
 
-      fetch('http://localhost:5000/jobpost/add', {
-        method: 'POST',
+      fetch("http://localhost:5000/jobpost/add", {
+        method: "POST",
         body: JSON.stringify(values),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       })
         .then((response) => {
           console.log(response.status);
           if (response.status === 200) {
             toast.success("job Posted Successfully");
             resetForm();
-          }
-          else {
+          } else {
             toast.error("job Posting Failed");
           }
         })
@@ -85,8 +74,8 @@ const Jobpost = () => {
           toast.error("job Posting Failed");
         });
     },
-    validationSchema: jobPostSchema
-  })
+    validationSchema: jobPostSchema,
+  });
 
   return (
     <div>
@@ -96,7 +85,7 @@ const Jobpost = () => {
           <style
             dangerouslySetInnerHTML={{
               __html:
-                "@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')"
+                "@import url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')",
             }}
           />
           <div className="min-w-screen min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center px-5 py-5">
@@ -105,26 +94,26 @@ const Jobpost = () => {
               style={{ maxWidth: 1000 }}
             >
               <div className="md:flex w-full">
-
-
                 <div className="hidden md:block w-1/2 bg-white py-32 px-10">
                   <img src="/p1.png" alt="" />
                 </div>
                 <div className="w-full md:w-1/2 py-10 px-5 bg-blue-250 md:px-10">
                   <div className="text-center mb-10">
-                    <h1 className="font-bold text-3xl text-black">Post Jobs here</h1>
+                    <h1 className="font-bold text-3xl text-black">
+                      Post Jobs here
+                    </h1>
                     <p>Enter information about Job </p>
                   </div>
                   <div>
-
                     <form onSubmit={jobPostForm.handleSubmit}>
                       <div>
                         <div>
-
-
                           <div className="block flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Job Description
                               </label>
                               <div className="flex ">
@@ -139,24 +128,24 @@ const Jobpost = () => {
                                   values={jobPostForm.values.jobDescription}
                                   className="bg-white  w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo"
                                   placeholder="Add Some Details..."
-                                  defaultValue={''}
+                                  defaultValue={""}
                                 />
-
-
                               </div>
                               <div>
-
-                                {
-                                  jobPostForm.touched.jobDescription &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.jobDescription}</small>
-                                }
+                                {jobPostForm.touched.jobDescription && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.jobDescription}
+                                  </small>
+                                )}
                               </div>
                             </div>
-
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Designation
                               </label>
                               <div className="flex">
@@ -173,18 +162,20 @@ const Jobpost = () => {
                                 />
                               </div>
                               <div>
-
-                                {
-                                  jobPostForm.touched.designation &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.designation}</small>
-                                }
+                                {jobPostForm.touched.designation && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.designation}
+                                  </small>
+                                )}
                               </div>
                             </div>
-
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Number of Entries
                               </label>
                               <div className="flex">
@@ -201,20 +192,22 @@ const Jobpost = () => {
                                 />
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.numberOfEntries &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.numberOfEntries}</small>
-                                }
+                                {jobPostForm.touched.numberOfEntries && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.numberOfEntries}
+                                  </small>
+                                )}
                               </div>
                             </div>
-
                           </div>
                         </div>
                         <div>
-
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Job Type
                               </label>
                               <div className="flex">
@@ -230,25 +223,26 @@ const Jobpost = () => {
                                   placeholder="Part Time/Full Time"
                                 >
                                   <option value="">Select Job Type</option>
-                                  {
-                                    jobType.map(jobType => (
-                                      <option value={jobType}>{jobType}</option>
-                                    ))
-                                  }
+                                  {jobType.map((jobType) => (
+                                    <option value={jobType}>{jobType}</option>
+                                  ))}
                                 </select>
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.jobType &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.jobType}</small>
-                                }
+                                {jobPostForm.touched.jobType && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.jobType}
+                                  </small>
+                                )}
                               </div>
                             </div>
-
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Salary
                               </label>
                               <div className="flex">
@@ -264,24 +258,26 @@ const Jobpost = () => {
                                   placeholder="Enter Salary"
                                 >
                                   <option value="">Select Salary</option>
-                                  {
-                                    salary.map(salary => (
-                                      <option value={salary}>{salary}</option>
-                                    ))
-                                  }
+                                  {salary.map((salary) => (
+                                    <option value={salary}>{salary}</option>
+                                  ))}
                                 </select>
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.salary &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.salary}</small>
-                                }
+                                {jobPostForm.touched.salary && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.salary}
+                                  </small>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Educational Qualification
                               </label>
                               <div className="flex">
@@ -297,24 +293,28 @@ const Jobpost = () => {
                                   placeholder="Required Educational qualification"
                                 >
                                   <option value="">Select Qualification</option>
-                                  {
-                                    qualifications.map(qualification => (
-                                      <option value={qualification}>{qualification}</option>
-                                    ))
-                                  }
+                                  {qualifications.map((qualification) => (
+                                    <option value={qualification}>
+                                      {qualification}
+                                    </option>
+                                  ))}
                                 </select>
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.eduQualification &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.eduQualification}</small>
-                                }
+                                {jobPostForm.touched.eduQualification && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.eduQualification}
+                                  </small>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Work Experience
                               </label>
                               <div className="flex">
@@ -331,16 +331,20 @@ const Jobpost = () => {
                                 />
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.workExperience &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.workExperience}</small>
-                                }
+                                {jobPostForm.touched.workExperience && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.workExperience}
+                                  </small>
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="flex -mx-3">
                             <div className="w-full px-3 mb-5">
-                              <label htmlFor="" className="text-xs font-semibold px-1">
+                              <label
+                                htmlFor=""
+                                className="text-xs font-semibold px-1"
+                              >
                                 Location
                               </label>
                               <div className="flex">
@@ -357,10 +361,11 @@ const Jobpost = () => {
                                 />
                               </div>
                               <div>
-                                {
-                                  jobPostForm.touched.location &&
-                                  <small className='text-sm text-red-500'>{jobPostForm.errors.location}</small>
-                                }
+                                {jobPostForm.touched.location && (
+                                  <small className="text-sm text-red-500">
+                                    {jobPostForm.errors.location}
+                                  </small>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -368,7 +373,10 @@ const Jobpost = () => {
                       </div>
                       <div className="flex -mx-3">
                         <div className="w-full px-3 mb-5">
-                          <button type='submit' className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+                          <button
+                            type="submit"
+                            className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                          >
                             Submit
                           </button>
                         </div>
@@ -378,12 +386,11 @@ const Jobpost = () => {
                 </div>
               </div>
             </div>
-          </div>       
+          </div>
         </>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Jobpost
+export default Jobpost;
