@@ -21,7 +21,7 @@ const compLogin = () => {
     },
     onSubmit: (values) => {
       console.log(values);
-      fetch('http://localhost:5000/company/authenticate', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/authenticate`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: {

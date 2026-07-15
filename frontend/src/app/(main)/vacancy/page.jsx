@@ -23,7 +23,7 @@ const Vacancy = () => {
   const [selSalaryRanges, setSelSalaryRanges] = useState([]);
 
   const fetchJobs = () => {
-    fetch('http://localhost:5000/jobpost/getall')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobpost/getall`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -34,7 +34,7 @@ const Vacancy = () => {
   };
 
   const fetchCompanies = () => {
-    fetch('http://localhost:5000/company/getall')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/getall`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -91,7 +91,7 @@ const Vacancy = () => {
     return jobList.map((job) => {
       console.log(default_image)
       const logoUrl = job.company?.logo!=="logo_placeholder.png"
-        ? `http://localhost:5000/uploads/${job.company.logo}`
+        ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${job.company.logo}`
         : default_image.src; // default logo path
 
       return (

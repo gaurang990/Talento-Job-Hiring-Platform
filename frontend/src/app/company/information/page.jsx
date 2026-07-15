@@ -33,7 +33,7 @@ useEffect(() => {
     formData.append('postalCode', data.postalCode);
     if (logo) formData.append('logo', logo);
 
-    fetch('http://localhost:5000/company/update/' + currentCompany._id, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/update/` + currentCompany._id, {
       method: 'PUT',
       body: formData,
     })

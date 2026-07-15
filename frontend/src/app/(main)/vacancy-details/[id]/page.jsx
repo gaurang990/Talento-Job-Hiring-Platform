@@ -12,7 +12,7 @@ const VacancyDetails = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/jobpost/getbyid/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobpost/getbyid/${id}`);
       const data = await res.json();
       setData(data);
     } catch (error) {
@@ -24,7 +24,7 @@ const VacancyDetails = () => {
     if (!currentUser) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/apply/checkapplication/${id}/${currentUser._id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apply/checkapplication/${id}/${currentUser._id}`);
       const data = await response.json();
       if (data) {
         setHasApplied(true);
@@ -56,7 +56,7 @@ const VacancyDetails = () => {
         formData.append('resume', resume);
       }
 
-      const applyRes = await fetch('http://localhost:5000/apply/add', {
+      const applyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apply/add`, {
         method: 'POST',
         body: formData,
       });

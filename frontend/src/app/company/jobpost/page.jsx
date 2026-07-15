@@ -63,7 +63,7 @@ useEffect(() => {
     onSubmit: (values, { resetForm }) => {
       console.log(values);
 
-      fetch("http://localhost:5000/jobpost/add", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobpost/add`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: {

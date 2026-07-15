@@ -28,7 +28,7 @@ const compSignup = () => {
     onSubmit: (values) => {
       console.log(values);
 
-      fetch("http://localhost:5000/company/add", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/add`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: {

@@ -8,7 +8,7 @@ const Profile = () => {
   const [companyDetails, setCompanyDetails] = useState(null);
 
   const fetchCompany = () => {
-    fetch("http://localhost:5000/company/getbyid/" + id)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/getbyid/` + id)
       .then((response) => {
         return response.json()
       })
@@ -30,7 +30,7 @@ const Profile = () => {
       <div className="w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
         <img
           className="object-cover object-center w-full h-56"
-          src={'http://localhost:5000/'+companyDetails.logo}
+          src={`${process.env.NEXT_PUBLIC_API_URL}/`+companyDetails.logo}
           alt="avatar"
         />
         <div className="flex items-center px-6 py-3 bg-gray-900">

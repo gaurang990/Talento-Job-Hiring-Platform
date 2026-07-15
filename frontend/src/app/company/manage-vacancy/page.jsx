@@ -31,7 +31,7 @@ const ManageVacancy = () => {
 
   const fetchVacancies = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/jobpost/getbycompany/${currentCompany?._id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobpost/getbycompany/${currentCompany?._id}`);
       if (!response.ok) throw new Error('Failed to fetch vacancies');
       const data = await response.json();
       setInterviewList(data);
@@ -43,7 +43,7 @@ const ManageVacancy = () => {
 
   const fetchApplications = async (interviewId) => {
     try {
-      const response = await fetch(`http://localhost:5000/apply/getbyinterview/${interviewId}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apply/getbyinterview/${interviewId}`);
       if (!response.ok) throw new Error('Failed to fetch applications');
       const data = await response.json();
       setApplicationList(data);
@@ -90,7 +90,7 @@ const ManageVacancy = () => {
                   {applicationList.map((application, index) => {
                     const resume = application?.resume;
                     const ext = getFileExtension(resume);
-                    const resumeUrl = `http://localhost:5000/${resume}`;
+                    const resumeUrl = `${process.env.NEXT_PUBLIC_API_URL}/${resume}`;
 
                     return (
                       <tr key={index}>

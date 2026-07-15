@@ -19,7 +19,7 @@ const Contact = () => {
     },
     onSubmit: (values, { resetForm }) => {
       console.log(values);
-      fetch('http://localhost:5000/contact/add/', {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/contact/add/`, {
         method: 'POST',
         body: JSON.stringify(values),
         headers: {

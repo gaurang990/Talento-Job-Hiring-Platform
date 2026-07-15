@@ -38,7 +38,7 @@ enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       console.log(values);
       values.rating = rating;
-      fetch("http://localhost:5000/feedback/add", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/feedback/add`, {
         method: "POST",
         body: JSON.stringify(values),
         headers: {

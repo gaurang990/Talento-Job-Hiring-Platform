@@ -8,7 +8,7 @@ const Home = () => {
   const [jobList, setJobList] = useState([]);
 
   const fetchJobs = () => {
-    fetch('http://localhost:5000/jobpost/getall')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobpost/getall`)
       .then((response) => {
         return response.json()
       })
@@ -245,7 +245,7 @@ const Home = () => {
                 >
                   <img
                     src={job.company?.logo!=="logo_placeholder.png"
-                            ? `http://localhost:5000/uploads/${job.company.logo}`
+                            ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${job.company.logo}`
                             : default_image.src}
                     loading="lazy"
                     alt="Photo by Austin Wade"
