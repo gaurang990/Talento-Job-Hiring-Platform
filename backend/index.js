@@ -29,6 +29,7 @@ app.use(express.json());
 
 // ✅ Serve static files from uploads (for resume file access)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/logo', express.static(path.join(__dirname, 'uploads/logo')));
 
 // Routes
 app.use('/user', userRouter);
