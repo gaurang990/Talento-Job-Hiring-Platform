@@ -19,7 +19,10 @@ const port = 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: [
+    "http://localhost:3000",
+    "https://talento-job-hiring-platform.vercel.app"
+  ],
   credentials: true
 }));
 app.use(express.json());
